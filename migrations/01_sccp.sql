@@ -1,19 +1,3 @@
-/*
- Navicat Premium Dump SQL
-
- Source Server         : zzhzhengzh
- Source Server Type    : MySQL
- Source Server Version : 90300 (9.3.0)
- Source Host           : localhost:3306
- Source Schema         : sccp_db
-
- Target Server Type    : MySQL
- Target Server Version : 90300 (9.3.0)
- File Encoding         : 65001
-
- Date: 23/07/2025 06:43:18
-*/
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
