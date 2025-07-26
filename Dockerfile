@@ -20,7 +20,13 @@ FROM debian:bookworm-slim
 # Install runtime dependencies (as root)
 RUN apt-get update && apt-get install -y libssl3 && rm -rf /var/lib/apt/lists/*
 
-# Copy all necessary files (as root)
+# =================================================================
+# === THE FIX: Create a work directory and copy migrations folder ===
+# =================================================================
+WORKDIR /app
+COPY --from=builder /usr/src/supplier-parts-system/migrations ./migrations
+
+# Copy all necessary executables (as root)
 COPY --from=builder /usr/src/supplier-parts-system/target/release/supplier-parts-app /usr/local/bin/supplier-parts-app
 COPY --from=builder /usr/local/cargo/bin/sqlx /usr/local/bin/sqlx
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
@@ -31,9 +37,7 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 # Create the non-root user (as root)
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
-# =======================================================
-# === THE FIX: Switch to the non-root user at the end ===
-# =======================================================
+# Switch to the non-root user
 USER appuser
 
 # Expose the application's port
