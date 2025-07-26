@@ -1,0 +1,33 @@
+[package]
+name = "supplier-parts-app"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+actix-web = { version = "4.11.0",features = ["default"] }
+actix-cors = {version = "0.7.1"}
+actix-files = "0.6.6"
+serde = {version = "1.0.219",features = ["derive"]}
+sqlx = {version = "0.8.6",features = ["runtime-tokio-rustls", "mysql", "chrono","rust_decimal"]}
+dotenv = "0.15.0"
+env_logger = "0.11.8"
+log = "0.4.27"
+thiserror = "2.0.12"
+#认证
+jsonwebtoken = "9.3.1"
+bcrypt = "0.17.0"
+chrono = {version = "0.4.41",features = ["serde"]}
+futures = "0.3.31"
+serde_json = "1.0.141"
+#文件上传
+actix-multipart = "0.7.2"
+futures-util = "0.3.31"
+uuid = {version = "1.17.0",features = ["v8","v4"]}
+#Chat
+actix = "0.13.5"
+actix-web-actors = {version = "4.3.1+deprecated"}
+rand = "0.9.2"
+querystring = {version = "1.1.0"}
+#Email
+lettre = {version = "0.11.17",features = ["smtp-transport", "tokio1-native-tls"]}
+tokio = "1.46.1"
