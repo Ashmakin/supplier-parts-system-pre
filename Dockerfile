@@ -1,9 +1,9 @@
 # ---- Stage 1: Build Stage ----
 # 使用官方的Rust镜像作为构建环境
-FROM rust:1.79 as builder
+FROM rust:1.88 as builder
 
 # 设置工作目录
-WORKDIR /usr/src/sccp-backend
+WORKDIR /usr/src/supplier-parts-system
 
 # 复制项目文件
 COPY . .
@@ -27,10 +27,10 @@ RUN groupadd -r appuser && useradd -r -g appuser appuser
 USER appuser
 
 # 从构建阶段复制编译好的可执行文件到最终镜像
-COPY --from=builder /usr/src/sccp-backend/target/release/sccp-backend /usr/local/bin/sccp-backend
+COPY --from=builder /usr/src/supplier-parts-system/target/release/supplier-parts-app /usr/local/bin/supplier-parts-app
 
 # 暴露我们应用运行的端口 (8080)
 EXPOSE 8080
 
 # 容器启动时运行的命令
-CMD ["sccp-backend"]
+CMD ["supplier-parts-app"]
