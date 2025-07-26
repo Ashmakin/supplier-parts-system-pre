@@ -1,4 +1,4 @@
-# ---- Stage 1: Build Stage ----
+e# ---- Stage 1: Build Stage ----
 # 使用一个明确的、较新的Rust版本
 FROM rust:1.88 as builder
 
@@ -18,6 +18,7 @@ RUN cargo build --release
 # ---- Stage 2: Final Stage ----
 # 使用一个非常小的基础镜像
 FROM debian:bullseye-slim
+RUN apt-get update && apt-get install -y libssl3 && rm -rf /var/lib/apt/lists/*
 
 # 为安全起见，设置非root用户
 RUN groupadd -r appuser && useradd -r -g appuser appuser
