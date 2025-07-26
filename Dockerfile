@@ -1,36 +1,30 @@
 # ---- Stage 1: Build Stage ----
-# 使用官方的Rust镜像作为构建环境
 FROM rust:1.79 as builder
 
-# 设置工作目录
 WORKDIR /usr/src/sccp-backend
 
 # 复制项目文件
 COPY . .
 
-# 安装 sqlx-cli 用于数据库迁移
-RUN cargo install sqlx-cli --features rustls,mysql
+# 安装 sqlx-cli, 它的可执行文件会被放在 /usr/local/cargo/bin/sqlx
+RUN cargo install sqlx-cli --version=0.7.4 --no-default-features --features rustls,mysql
 
-# 运行数据库迁移 (这一步确保我们的生产数据库有正确的表结构)
-# 注意: 部署时需要设置 DATABASE_URL 环境变量
-RUN sqlx migrate run
-
-# 构建发布版本的可执行文件
+# 构建我们自己的应用
 RUN cargo build --release
 
 # ---- Stage 2: Final Stage ----
-# 使用一个非常小的基础镜像来减小最终镜像的体积和安全风险
 FROM debian:bullseye-slim
 
-# 设置非root用户运行，增加安全性
+# 设置非root用户
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 USER appuser
 
-# 从构建阶段复制编译好的可执行文件到最终镜像
+# 从构建阶段复制我们编译好的应用
 COPY --from=builder /usr/src/sccp-backend/target/release/sccp-backend /usr/local/bin/sccp-backend
+# 从构建阶段复制 sqlx-cli 工具
+COPY --from=builder /usr/local/cargo/bin/sqlx /usr/local/bin/sqlx
 
-# 暴露我们应用运行的端口 (8080)
 EXPOSE 8080
 
-# 容器启动时运行的命令
+# 默认启动命令只运行应用, 我们将在Render的设置中覆盖它
 CMD ["sccp-backend"]
