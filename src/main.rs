@@ -36,7 +36,7 @@ async fn main() -> std::io::Result<()> {
 
 
     // 获取服务地址和端口
-    let server_addr = env::var("SERVER_ADDR").unwrap_or_else(|_| "127.0.0.1:8080".to_string());
+    let server_addr = env::var("SERVER_ADDR").unwrap_or_else(|_| "0.0.0.0:8080".to_string());
     log::info!("🚀 Server starting at http://{}", server_addr);
     // --- 在 HttpServer::new 之前，启动ChatServer Actor ---
     let chat_server = ChatServer::default().start();
