@@ -1,5 +1,5 @@
 # ---- Stage 1: Build Stage ----
-FROM rust:1.79 as builder
+FROM rust:1.88 as builder
 
 WORKDIR /usr/src/sccp-backend
 
