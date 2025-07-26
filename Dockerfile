@@ -18,8 +18,7 @@ RUN cargo build --release
 # ---- Stage 2: Final Stage ----
 # 使用一个非常小的基础镜像
 FROM debian:bullseye-slim
-RUN apt-get update && apt-get install -y libssl3 && rm -rf /var/lib/apt/lists/*
-
+RUN apt-get update && apt-get install -y libssl3
 # 为安全起见，设置非root用户
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 USER appuser
