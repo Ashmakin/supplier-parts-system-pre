@@ -9,7 +9,7 @@ WORKDIR /usr/src/sccp-backend
 COPY . .
 
 # 安装 sqlx-cli 用于数据库迁移
-RUN cargo install sqlx-cli --no-default-features --features rustls,mysql
+RUN cargo install sqlx-cli --features rustls,mysql
 
 # 运行数据库迁移 (这一步确保我们的生产数据库有正确的表结构)
 # 注意: 部署时需要设置 DATABASE_URL 环境变量
